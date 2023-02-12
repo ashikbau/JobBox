@@ -2,12 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { useRegisterMutation } from "../../features/auth/authApi";
 
 const CandidateRegistration = () => {
+  const {user:{email}} = useSelector(state => state.auth)
   const [countries, setCountries] = useState([]);
-  const { handleSubmit, register, control } = useForm();
+  const { handleSubmit, register, control } = useForm({
+    defaultValues:{
+     email,
+    }
+   });
   const term = useWatch({ control, name: "term" });
-  console.log(term);
+  const [postUser,{isLoading,isError}] = useRegisterMutation()
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +25,7 @@ const CandidateRegistration = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    postUser({...data, role:"candidate"});
   };
 
   return (

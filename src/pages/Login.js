@@ -7,10 +7,11 @@ import { useNavigate } from "react-router-dom";
 import loginImage from "../assets/login.svg";
 import { googleLogIn, logInUser } from "../features/auth/authSlice";
 const Login = () => {
-  const { register, handleSubmit, reset } = useForm();
-  const {isLoading,email, isError,error} = useSelector((state)=>state.auth)
+  const { register, handleSubmit } = useForm();
+  const {isLoading,user, isError,error} = useSelector((state)=>state.auth)
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {email} = user;
 
   const onSubmit = ({email,password}) => {
     
